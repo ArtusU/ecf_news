@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser
+from .models import CustomUser, UserProfile, Category, Subscription
 
 
 class CustomUserAdmin(admin.ModelAdmin):
@@ -10,3 +10,6 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(UserProfile)
+admin.site.register(Category)
+admin.site.register(Subscription)

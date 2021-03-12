@@ -18,7 +18,7 @@
           <a class="nav-link" href="{% url 'logout' %}">Logout</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link">Welcome: {{request.user.username}} | {{request.user.email}}</a>
+          <a class="nav-link">Welcome: {{request.user.username}} | {{request.user.userprofile.user_type}} | {{request.user.email}}</a>
         </li>
         {% else %}
         <li class="nav-item">
