@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>List of categories</h1>
+<a href="{% url 'news:category-create' %}">Create a category</a>
+<hr />
+{% for category in object_list %}
+
+  <div class="card">
+    <h5 class="card-header">{{ category.name }}</h5>
+    <div class="card-body">
+      <h5 class="card-title">{{ category.writers }}</h5>
+      <p class="card-text">{{ category.managers }}</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+  </div>
+{% endfor %}
+
+{% endblock content %}
