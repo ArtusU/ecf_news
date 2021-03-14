@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Category details</h1>
+<a href="{% url 'news:category-list' %}">Back to all categories</a>
+
+<div class="card mt-4">
+    <h5 class="card-header"> Category: {{ object.name }}</h5>
+    <div class="card-body">
+        {% for writer in category.writers.all %}
+            <h6 class="card-title">Writer:  {{ writer.username }} | {{ writer.email }} </h6> 
+        {% endfor %}
+        <hr />
+        <h2>List of Posts</h2>
+        {% for post in category.post_set.all %}
+        <div class="list-group mt-1">
+            <a href="{% url 'news:post-detail' post.id %}" class="list-group-item list-group-item-action" aria-current="true">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ post.title }}</h5>
+                <small>{{ post.date_created }}</small>
+                </div>
+                <p class="mb-1">{{ post.content }}</p>
+                <small>{{ post.writer.username }} | {{ post.writer.email }}</small>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="card-footer text-muted">
+        <p class="card-text"> Category creator: {{ category.executive.username }} | {{ category.executive.email }}</p>
+        {% for manager in category.managers.all %}
+            <p class="card-text">Manager: {{ manager.username }} | {{ manager.email }} </p>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock content %}

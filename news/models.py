@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.base import Model
 from django.db.models.deletion import CASCADE
 from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
@@ -35,6 +36,22 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Post(models.Model):
+    category        = models.ForeignKey(Category, on_delete=models.CASCADE)
+    writer          = models.ForeignKey(CustomUser, related_name='posts', on_delete=models.CASCADE)
+
+    title           = models.CharField(max_length=100)
+    content         = models.CharField(max_length=255)
+    date_created    = models.DateTimeField(auto_now_add=True)
+    last_updated    = models.DateTimeField(auto_now=True)
+
+    def __srt__(self):
+        return self.title
+
+
+
 
 
 class Subscription(models.Model):

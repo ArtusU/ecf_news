@@ -3,17 +3,28 @@
 {% block content %}
 <h1>List of categories</h1>
 <a href="{% url 'news:category-create' %}">Create a category</a>
-<hr />
-{% for category in object_list %}
 
+{% for category in object_list %}
+<div class="container mt-2 mb-2">
   <div class="card">
     <h5 class="card-header">{{ category.name }}</h5>
     <div class="card-body">
-      <h5 class="card-title">{{ category.writers }}</h5>
-      <p class="card-text">{{ category.managers }}</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
+      <h6 class="card-title">Category createor: {{ category.executive.username }}</h6>
+        {% for manager in category.managers.all %}
+          <h6 class="card-text">Manager: {{ manager.username }} | {{ manager.email }} </h6> 
+        {% endfor %}
+    
+        <hr />
+      
+        <div class="card-body">
+        {% for writer in category.writers.all %}
+          <p class="card-title">Writer:  {{ writer.username }} | {{ writer.email }} </p> 
+        {% endfor %}
+    
+      <a href="{% url 'news:category-detail' category.id %}" class="btn btn-primary">Go to category</a>
     </div>
   </div>
+</div>
 {% endfor %}
 
 {% endblock content %}

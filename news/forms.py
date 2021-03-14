@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.db import models
 from django.db.models import manager
 from django.forms import fields
-from .models import CustomUser, Category
+from .models import CustomUser, Category, Post
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -18,6 +18,30 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
         fields = ('username', 'email')
+
+
+class PostForm(forms.ModelForm):
+    category = forms.ModelChoiceField(queryset=Category.objects.none())
+    class Meta:
+        model = Post
+        fields = ('category', 'title', 'content')
+
+    def __init__(self, *args, **kwargs):
+        self.user_id = kwargs.pop('user_id')
+        super().__init__(*args, **kwargs)
+        user= User.objects.get(id=self.user_id)
+        self.fields['category'].queryset = user.writers_category.all()
+
+    def clean(self):
+        user= User.objects.get(id=self.user_id)
+        data = self.cleaned_data
+        category = data.get('category', None)
+        if not category:
+            raise forms.ValidationError("Please select the category")
+
+        if category not in user.writers_category.all():
+            raise forms.ValidationError("Please select the category you can write for")
+
 
 
 class CategoryForm(forms.ModelForm):

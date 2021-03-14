@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Post details</h1>
+<a href="{% url 'news:category-list' %}">Back to all categories</a>
+
+<div class="card text-center mt-3">
+  <div class="card-header">
+    <h5 class="card-title">{{ object.category }}</h5>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ object.title }}</h5>
+    <p class="card-text">{{ object.content }}</p>
+  </div>
+  <div class="card-footer text-muted">
+    <p class="card-text"><small class="text-muted">By: {{ object.writer.username }} | {{ object.date_created }}</small></p>
+  </div>
+</div>
+
+
+
+{% endblock content %}
