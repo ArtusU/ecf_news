@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>My Feed</h1>
+
+{% for subscription in object_list %}
+<div class="container mt-2 mb-2">
+  <div class="card">
+    <h5 class="card-header">Category: {{ subscription.category.name }}</h5>
+    <div class="card-body">
+      <h6 class="card-title">Category createor: {{ subscription.category.executive.username }}</h6>
+        {% for manager in subscription.category.managers.all %}
+          <h6 class="card-text">Manager: {{ manager.username }} | {{ manager.email }} </h6> 
+        {% endfor %}
+    
+        <hr />
+      
+        <div class="card-body">
+        {% for writer in subscription.category.writers.all %}
+          <p class="card-title">Writer:  {{ writer.username }} | {{ writer.email }} </p> 
+        {% endfor %}
+    
+      <a href="{% url 'news:category-detail' subscription.category.id %}" class="btn btn-primary">Go to category</a>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock content %}

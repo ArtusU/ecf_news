@@ -73,3 +73,5 @@ class CategoryForm(forms.ModelForm):
             raise forms.ValidationError('Please ensure all the users are valid writers')
         '''
         
+class SubscribeCategoryForm(forms.Form):
+    hidden = forms.HiddenInput()

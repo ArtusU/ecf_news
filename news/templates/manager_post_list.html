@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Managers Post List</h1>
+
+{% for post in object_list %}
+<div class="container mt-2 mb-2">
+  <div class="card">
+    <a href="{% url 'news:post-detail' post.id %}">
+    <h5 class="card-header">{{ post.title }}</h5></a>
+    <div class="card-body">
+      <h6 class="card-title"> Writer: {{ post.writer.username }} | {{ post.writer.email }} | {{ post.date_created }}</h6>
+        <div class="card-body">
+          <p class="card-title">Category: {{ post.category.name }}</p> 
+        </div>
+    </div>
+  
+  </div>
+</div>
+{% endfor %}
+
+{% endblock content %}

@@ -1,38 +1,56 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <h1>Category details</h1>
 <a href="{% url 'news:category-list' %}">Back to all categories</a>
 
+
+
 <div class="card mt-4">
-    <h5 class="card-header"> Category: {{ object.name }}</h5>
+    <h5 class="card-header"> Category: {{ category.name }}</h5>
     <div class="card-body">
+        {% if request.user.userprofile.user_type == 'Reader' %}
+            {% if not subscribed %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary m-2">Follow this category</button>
+                </form>
+            {% else %}
+                <p class="card-text">You are subscribed</p>
+            {% endif %}
+        {% endif %}
+
         {% for writer in category.writers.all %}
             <h6 class="card-title">Writer:  {{ writer.username }} | {{ writer.email }} </h6> 
         {% endfor %}
         <hr />
-        <h2>List of Posts</h2>
-        {% for post in category.post_set.all %}
-        <div class="list-group mt-1">
-            <a href="{% url 'news:post-detail' post.id %}" class="list-group-item list-group-item-action" aria-current="true">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{ post.title }}</h5>
-                <small>{{ post.date_created }}</small>
+
+        <ul class="list-group">
+            <h2>List of Posts</h2>
+            {% for post in category.post_set.all %}
+                <div class="list-group mt-1">
+                    <a href="{% url 'news:post-detail' post.id %}" class="list-group-item list-group-item-action" aria-current="true">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ post.title }}</h5>
+                        <small>{{ post.date_created }}</small>
+                    </div>
+                    <p class="mb-1">{{ post.content }}</p>
+                    <small>{{ post.writer.username }} | {{ post.writer.email }} | {{ post.public }}</small>
+                    </a>
                 </div>
-                <p class="mb-1">{{ post.content }}</p>
-                <small>{{ post.writer.username }} | {{ post.writer.email }}</small>
-            </a>
-        </div>
-        {% endfor %}
+            {% endfor %}
+        </ul>
     </div>
 
-    <div class="card-footer text-muted">
-        <p class="card-text"> Category creator: {{ category.executive.username }} | {{ category.executive.email }}</p>
-        {% for manager in category.managers.all %}
+    {% if not request.user.userprofile.user_type == 'Reader' %}
+        <div class="card-footer text-muted">
+            <p class="card-text"> Category creator: {{ category.executive.username }} | {{ category.executive.email }}</p>
+            {% for manager in category.managers.all %}
             <p class="card-text">Manager: {{ manager.username }} | {{ manager.email }} </p>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 </div>
-
 
 {% endblock content %}

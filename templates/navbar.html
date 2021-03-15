@@ -10,29 +10,33 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'news:home' %}">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
         {% if request.user.is_authenticated %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link">Welcome: {{request.user.username}} | {{request.user.userprofile.user_type}} | {{request.user.email}}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'news:category-list' %}">List of categories</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'news:post-create' %}">Create a post</a>
-        </li>
-        {% else %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'login' %}">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'news:signup' %}">Signup</a>
-        </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">Welcome: {{request.user.username}} | {{request.user.userprofile.user_type}} | {{request.user.email}}</a>
+          </li>
+            {% if request.user.userprofile.user_type == 'Reader' %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'news:feed' %}">My feed</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'news:post-create' %}">Create a post</a>
+            </li>
+            {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'news:category-list' %}">List of categories</a>
+          </li>
+          
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'news:signup' %}">Signup</a>
+          </li>
         {% endif %}
       </ul>
     </div>

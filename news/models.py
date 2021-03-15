@@ -46,6 +46,7 @@ class Post(models.Model):
     content         = models.CharField(max_length=255)
     date_created    = models.DateTimeField(auto_now_add=True)
     last_updated    = models.DateTimeField(auto_now=True)
+    public          = models.BooleanField(default=False)
 
     def __srt__(self):
         return self.title

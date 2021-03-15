@@ -2,10 +2,29 @@
 
 {% block content %}
 <h1>Post details</h1>
-<a href="{% url 'news:category-list' %}">Back to all categories</a>
+<a href="{% url 'news:category-detail' object.category.id %}">Back to all posts</a>
 
 <div class="card text-center mt-3">
   <div class="card-header">
+    <ul class="nav nav-pills card-header-pills">
+      {% if request.user.userprofile.user_type == "Writer" %}
+      <li class="nav-item">
+        <a class="nav-link active" href="#">Update</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active bg-danger mx-2" href="{% url 'news:post-delete' object.pk %}">Delete</a>
+      </li>
+      {% endif %}
+
+      {% if request.user.userprofile.user_type == 'Manager' %}
+          {% if not object.public %}
+          <a href="{% url 'news:mark-as-public' object.id %}">Mark as public</a>
+          {% else %}
+          <p>This post is public</p>
+          {% endif %}
+      {% endif %}
+    </ul>
+    
     <h5 class="card-title">{{ object.category }}</h5>
   </div>
   <div class="card-body">
@@ -16,7 +35,5 @@
     <p class="card-text"><small class="text-muted">By: {{ object.writer.username }} | {{ object.date_created }}</small></p>
   </div>
 </div>
-
-
 
 {% endblock content %}
